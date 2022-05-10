@@ -26,6 +26,9 @@ function updateData(collectionName, dbName, id, value, callBack=null) {
 function getData(collectionName, dbName, id, filter=null, orderBy=null, asending=true) {
 }
 
+function getDataOne(collectionName, dbName, id, filter=null, orderBy=null, asending=true) {
+}
+
 function updateDataStatus(collectionName, dbName, id, status, callBack=null) {
 }
 
