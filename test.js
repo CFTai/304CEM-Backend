@@ -26,15 +26,6 @@ server.post('/foo',
 
 server.put('/foo',
     function(req, res, next) {
-        console.log(req);
-        console.log('\n');
-        console.log('================================================\n');
-        console.log('\n');
-        console.log(res);
-        console.log('\n');
-        console.log('================================================\n');
-        console.log('\n');
-        console.log(next);
         console.log("Put method");
         req.someData = "Request received";
         return next();
