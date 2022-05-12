@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
-const uri='mongodb://localhost:27017/';
-const client = new MongoClient(uri);
+var config = require('./config');
+const client = new MongoClient(config.MONGODB_URI);
 const dbName='304CEM';
 
 async function createCollection(collectionName) {

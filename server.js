@@ -1,22 +1,26 @@
-var restify = require('restify');
-var mongoDBClient = require('./serverAction');
-
-
-
-function respond(req, res, next) {
-  res.send('hello ' + req.params.name);
-  next();
-}
-
+const restify = require('restify');
+const mongoDBClient = require('./serverAction');
+const mongoose = require('mongoose');
+const config = require('./config');
 
 var server = restify.createServer({
-    name: 'Hello World!',
-    version: '1.0.0'
-  });
+  name: '304CEM Assignment by Stephen Tai',
+  version: '1.0.0'
+});
+
+// ========= Setup Plugins =========
 
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.jsonp());
 server.use(restify.plugins.bodyParser({ mapParams: true }));
+
+// ========= Setup JWT_Secret =========
+
+server.use(rjwt({ secret: config.JWT_SECRET}).unless({
+  path: ['/api/auth']
+}));
+
+// ========= Handle promise =========
 
 function catchErrors(callback) {
     return async function errorHandler(req, res, next) {
@@ -28,7 +32,23 @@ function catchErrors(callback) {
         next(err)
       }
     }
-}  
+}
+
+server.on('InternalServer', function (req, res, err, next) {
+  let cause = err.cause()
+  if (cause && cause.name == 'ValidationError') {
+    err.statusCode = 400
+    err.body.code = 'ValidationError'
+    err.body.message = cause.message
+    err.body.details = cause.details
+  } else {
+    log.error(err)
+    err.body = 'Something went wrong.'
+  }
+  next()
+})
+
+// ========= Method =========
 
 server.get('/', function(req, res, next) {
     res.send('home')
@@ -62,7 +82,7 @@ server.post('/insert',
     }
 )
 
-server.put('/foo',
+server.put('/update',
     function(req, res, next) {
         console.log("Put method");
         req.someData = "Request received";
@@ -74,22 +94,13 @@ server.put('/foo',
     }
 );
 
-server.head('/hello/:name', respond);
+// server.head('/hello/:name', respond);
 
 server.listen(8080, function() {
   console.log('%s listening at %s', server.name, server.url);
+  mongoose.set('userFindAndModify', false);
+  mongoose.connect(config.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 });
-
-server.on('InternalServer', function (req, res, err, next) {
-    let cause = err.cause()
-    if (cause && cause.name == 'ValidationError') {
-      err.statusCode = 400
-      err.body.code = 'ValidationError'
-      err.body.message = cause.message
-      err.body.details = cause.details
-    } else {
-      log.error(err)
-      err.body = 'Something went wrong.'
-    }
-    next()
-})

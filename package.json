@@ -25,10 +25,16 @@
   },
   "homepage": "https://github.com/CFTai/304CEM-Backend#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "ini": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.5.0",
+    "mongoose": "^6.3.3",
+    "mongoose-timestamp": "^0.6.0",
     "node-sass": "^7.0.1",
     "nodejs": "^0.0.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "restify-errors": "^8.0.2",
+    "restify-jwt-community": "^1.1.26"
   }
 }
