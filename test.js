@@ -1,44 +1,11 @@
-var restify = require('restify');
+var mongoDBClient = require('./serverAction');
 
-function respond(req, res, next) {
-  res.send('hello ' + req.params.name);
-  next();
-}
 
-var server = restify.createServer();
-server.get('/', function(req, res, next) {
-    res.send('home')
-    return next();
-  });
-  
-server.post('/foo',
-    function(req, res, next) {
-      console.log("abc");
-      req.someData = 'You are requestin post method';
-      return next();
-    },
-    function(req, res, next) {
-      res.send(req.someData);
-      console.log('request sent');
-      return next();
-    }
-);
+// Create new collection into a database;
 
-server.put('/foo',
-    function(req, res, next) {
-        console.log("Put method");
-        req.someData = "Request received";
-        return next();
-    },
-    function(req, res, next) {
-        res.send(req.someData);
-        return next();
-    }
-);
-
-server.head('/hello/:name', respond);
-
-server.listen(8080, function() {
-  console.log('%s listening at %s', server.name, server.url);
-});
-
+// temp_array = 
+// {
+//     title: "Record of a Shriveled Datum",
+//     content: "No bytes, no problem. Just insert a document, in MongoDB",
+// };
+// mongoDBClient.insertDataNew('testCollection2', temp_array).catch(console.dir);

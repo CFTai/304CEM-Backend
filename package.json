@@ -1,0 +1,34 @@
+{
+  "name": "304cem-backend",
+  "version": "1.0.0",
+  "description": "304cem assignment - backend",
+  "main": "api.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CFTai/304CEM-Backend.git"
+  },
+  "keywords": [
+    "304cem",
+    "Coventry",
+    "University",
+    "CFTai",
+    "StephenCFTai"
+  ],
+  "author": "Stephen Tai Chi Fung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CFTai/304CEM-Backend/issues"
+  },
+  "homepage": "https://github.com/CFTai/304CEM-Backend#readme",
+  "dependencies": {
+    "ini": "^3.0.0",
+    "mongodb": "^4.5.0",
+    "node-sass": "^7.0.1",
+    "nodejs": "^0.0.0",
+    "nodemon": "^2.0.16"
+  }
+}

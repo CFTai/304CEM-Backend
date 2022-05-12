@@ -88,6 +88,4 @@ typings/
 .dynamodb/
 
 settings.ini
-test.js
 package-lock.json
-package.json
