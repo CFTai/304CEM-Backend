@@ -4,8 +4,9 @@
   "description": "304cem assignment - backend",
   "main": "api.js",
   "scripts": {
-    "test": "node test.js",
-    "start": "node server.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/CFTai/304CEM-Backend#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.1",
     "ini": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.5.0",
@@ -34,6 +36,7 @@
     "node-sass": "^7.0.1",
     "nodejs": "^0.0.0",
     "nodemon": "^2.0.16",
+    "restify": "^8.6.1",
     "restify-errors": "^8.0.2",
     "restify-jwt-community": "^1.1.26"
   }

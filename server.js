@@ -2,6 +2,7 @@ const restify = require('restify');
 const mongoDBClient = require('./serverAction');
 const mongoose = require('mongoose');
 const config = require('./config');
+const rjwt = require('restify-jwt-community');
 
 var server = restify.createServer({
   name: '304CEM Assignment by Stephen Tai',
@@ -54,19 +55,6 @@ server.get('/', function(req, res, next) {
     res.send('home')
     return next();
   });
-  
-server.post('/foo',
-    function(req, res, next) {
-      console.log("abc");
-      req.someData = 'You are requestin post method';
-      return next();
-    },
-    function(req, res, next) {
-      res.send(req.someData);
-      console.log('request sent');
-      return next();
-    }
-);
 
 server.post('/insert',
     catchErrors(async function(req, res , next) {
@@ -98,7 +86,7 @@ server.put('/update',
 
 server.listen(8080, function() {
   console.log('%s listening at %s', server.name, server.url);
-  mongoose.set('userFindAndModify', false);
+  // mongoose.set('userFindAndModify', false);
   mongoose.connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
