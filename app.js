@@ -3,17 +3,15 @@ const config = require('./config/index');
 const app = restify.createServer();
 const rjwt = require('restify-jwt-community');
 const jwt = require('jsonwebtoken');
+const sa = require('./serverAction');
+const mongoose = require('mongoose');
 
 app.use(restify.plugins.queryParser());
 app.use(restify.plugins.bodyParser());
 
 app.use(rjwt({ secret: config.JWT_SECRET }).unless({
-    path: ['/api/auth']
+    path: ['/api/auth', '/api/registration']
 }));
-
-app.listen(config.PORT, () => {
-    console.log('%s listening at %s', app.name, app.url);
-});
 
 // ========= Handle promise =========
 
@@ -48,7 +46,20 @@ app.on('InternalServer', function (req, res, err, next) {
 app.post('/insert',
     catchErrors(async function(req, res , next) {
         // var result = await mongoDBClient.insertDataNew('testCollection2', req.params).catch(console.dir);
-        req.result = result;
+        console.log(req.body.test);
+        return next();
+    }),
+
+    function(req, res, next) {
+        res.send("success");
+        return next();
+    }
+)
+
+app.post('/collection',
+    catchErrors(async function(req, res , next) {
+        // var result = await mongoDBClient.insertDataNew('testCollection2', req.params).catch(console.dir);
+
         return next();
     }),
 
@@ -58,3 +69,20 @@ app.post('/insert',
         return next();
     }
 )
+
+app.listen(config.PORT, () => {
+    mongoose.connect(
+        config.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,   
+    }
+    );
+});
+
+const database = mongoose.connection;
+database.on('error', (err) => {
+    console.log(err);
+})
+database.once('open', () => {
+    require('./routes/user')(app)
+})

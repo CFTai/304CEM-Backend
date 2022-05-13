@@ -3,22 +3,22 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const auth = require('./auth');
 const jwt = require('jsonwebtoken');
-const config = require('../config');
-const apiPath = require('../apiPath')
+const config = require('../config/index');
+const apiPath = require('./apiPath')
 
 module.exports = server => {
-    server.post(apiPath.authenticate, (req, res, next) => {
-        const { email, pw, confirm_pw } = req.body;
+    server.post('/api/registration', (req, res, next) => {
+        const { email, password } = req.body;
         // double check password
         const user = new User({
             email,
-            pw
+            password
         });
         // encrypt password 
         bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(user.pw, salt, async (err, hash) => {
+            bcrypt.hash(user.password, salt, async (err, hash) => {
                 if (err) throw err;
-                user.pw = hash;
+                user.password = hash;
                 try {
                     const newUser = await user.save();
                     res.send(201);
@@ -30,11 +30,11 @@ module.exports = server => {
         })
     });
 
-    server.post(apiPath.registration, async (req, res, next) => {
-        const { email, pw } = req.body;
+    server.post('/api/auth', async (req, res, next) => {
+        const { email, password } = req.body;
         try {
-            const user = await auth.authenticate(email, pw);
-            const token = jwt.sign(user.toJSON(). config.JWT_SECRET, { expiresIn: '20m' });
+            const user = await auth.authenticate(email, password);
+            const token = jwt.sign(user.toJSON(), config.JWT_SECRET, { expiresIn: '20m' });
             const { iat, exp } = jwt.decode(token);
 
             res.send({iat, exp, token});
