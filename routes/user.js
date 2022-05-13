@@ -37,8 +37,7 @@ module.exports = server => {
             const token = jwt.sign(user.toJSON(), config.JWT_SECRET, { expiresIn: '20m' });
             const { iat, exp } = jwt.decode(token);
 
-            res.send({iat, exp, token});
-            console.log(iat, exp, token);
+            res.send({iat, exp, token})
             next();
         } catch(error) {
             return next(new errors.UnauthorizedError(error));
