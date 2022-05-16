@@ -38,6 +38,7 @@
     "nodemon": "^2.0.16",
     "restify": "^8.6.1",
     "restify-errors": "^8.0.2",
-    "restify-jwt-community": "^1.1.26"
+    "restify-jwt-community": "^1.1.26",
+    "uuidv4": "^6.2.13"
   }
 }

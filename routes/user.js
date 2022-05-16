@@ -21,7 +21,8 @@ module.exports = server => {
                 user.password = hash;
                 try {
                     const newUser = await user.save();
-                    res.send(201);
+                    res.status(201);
+                    res.send(newUser);
                     next();
                 } catch (err) {
                     return next(new errors.InternalError(err.message))
