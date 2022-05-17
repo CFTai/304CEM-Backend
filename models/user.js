@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
   },
   is_admin: {
     type: Boolean,
-    default: true
+    default: false
   },
   member_point: {
     type: Number,
@@ -30,6 +30,14 @@ const UserSchema = new mongoose.Schema({
   orders: {
     type: Number,
     default: 0
+  },
+  token : {
+    type: String,
+    default: null,
+  },
+  expiresAt: {
+    type: Number,
+    default: null,
   }
 });
 
