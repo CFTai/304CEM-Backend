@@ -39,23 +39,26 @@ module.exports = server => {
         const { email, password } = req.body;
         try {
             const user = await auth.authenticate(email, password);
-            const token = jwt.sign(user.toJSON(), config.JWT_SECRET, { expiresIn: '20m' });
+            const token = jwt.sign(user.toJSON(), config.JWT_SECRET, { expiresIn: 300 });
             const { iat, exp } = jwt.decode(token);
             const auth_user = await User.updateOne({email: email}, {$set: {token : token, expiresAt: exp}}, {upsert: true});
-            console.log(auth_user);
             res.send({ iat, exp, token })
+            res.end()
             next();
         } catch (error) {
             return next(new errors.UnauthorizedError(error));
         }
     });
 
-    server.put('/api/user/profile', async (req, res, next) => {
-        const {username, password} = req.body;
-        try {
-            const user = await User.findOne({"sessions.token": session_token})
-        } catch (error) {6666
-            return next(new errors.UnauthorizedError(error));
-        }
+    server.put('/api/user/profile', (req, res, next) => {
+        console.log("here");
+        var token = req.headers['x-access-token'];
+        if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+  
+        jwt.verify(token, config.JWT_SECRET, function(err, decoded) {
+            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+            res.status(200).send(decoded);
+            next();
+        });
     });
 }

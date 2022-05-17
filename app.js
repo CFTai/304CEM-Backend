@@ -41,35 +41,6 @@ app.on('InternalServer', function (req, res, err, next) {
   next();
 })
 
-// ========= Method =========
-
-app.post('/insert',
-    catchErrors(async function(req, res , next) {
-        // var result = await mongoDBClient.insertDataNew('testCollection2', req.params).catch(console.dir);
-        console.log(req.body.test);
-        return next();
-    }),
-
-    function(req, res, next) {
-        res.send("success");
-        return next();
-    }
-)
-
-app.post('/collection',
-    catchErrors(async function(req, res , next) {
-        // var result = await mongoDBClient.insertDataNew('testCollection2', req.params).catch(console.dir);
-
-        return next();
-    }),
-
-    function(req, res, next) {
-        console.log(req.result);
-        res.send("success");
-        return next();
-    }
-)
-
 app.listen(config.PORT, () => {
     mongoose.connect(
         config.MONGODB_URI, {
@@ -83,6 +54,7 @@ const database = mongoose.connection;
 database.on('error', (err) => {
     console.log(err);
 })
+// import api from routes file 
 database.once('open', () => {
     require('./routes/user')(app)
 })
