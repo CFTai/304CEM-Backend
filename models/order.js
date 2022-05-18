@@ -22,14 +22,18 @@ const CartSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    items: {
+    items: [{
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: true
-    },
+    }],
     status: {
         type: String,
         default: 'Draft'
+    },
+    arrive_date: {
+        type : Date,
+        default: Date.now
     }
 })
 

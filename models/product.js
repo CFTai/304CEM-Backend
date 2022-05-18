@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp')
+
 const ProductSchema = new mongoose.Schema({
     UUID: {
         type: String,
@@ -39,7 +40,7 @@ const ProductSchema = new mongoose.Schema({
     //     type: Number,
     //     ref: 'Product'
     // },
-    arrive_date: {
+    stock_date: {
         type : Date,
         default: Date.now
     }
