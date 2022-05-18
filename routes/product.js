@@ -52,7 +52,16 @@ router.post("/", async (req, res, next) => {
     next();
 })
 
-router.put("/", async (req, res, next) => {
+router.get("/:id/detail", async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        data: {
+            result : 'Get product detail'
+        }
+    });
+})
+
+router.put("/:id/detail", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
     let { email, password } = req.body;
@@ -90,6 +99,15 @@ router.post("/:id/comment", async (req, res, next) => {
         }
     });
     next();
+})
+
+router.delete("/:id/comment", async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        data: {
+            result : 'Delete comment'
+        }
+    });
 })
 
 router.post("/:id/cart", async (req, res, next) => {

@@ -14,59 +14,52 @@ router.use((req, res, next) => {
 });
 
 
-// Get list of order
-router.get("/", async (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: {
-            result : 'Get list of detail'
-        }
-    });
-    next();
-})
-
-// Get specfic order
+// Get list of cart
 router.get("/:id", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
-            result : 'Get specific detail'
+            result : 'Get list of order'
         }
     });
     next();
 })
 
-// Update order detail
-router.put("/:id", async (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: {
-            result: 'Update order detail'
-        }
-    });
-    next();
-}) 
-
-// Delete order
+// Remove items from cart
+// With response body
 router.delete("/:id", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
-            result: 'Delete order'
-        }
-    })
-})
-
-// Update order status
-router.put("/:id/:status", async (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: {
-            result: 'Update order status'
+            result: 'Remove item from cart'
         }
     });
     next();
-});
+})
+
+// Update cart
+// With response body 
+router.put("/:id", async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        data: {
+            result: 'Update cart'
+        }
+    });
+    next();
+})
+
+// Place cart to order
+// After create draft order, clear cart
+router.put("/:id/order", async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        data: {
+            result: 'Place a draft order'
+        }
+    });
+    next();
+})
 
 module.exports = {
     router: router,

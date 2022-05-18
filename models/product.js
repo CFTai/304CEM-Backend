@@ -52,6 +52,7 @@ module.exports = mongoose.model('Product', ProductSchema);
 
 // Get product list
 // Get product comment
+// Get product details
 // Create cart
 // Update cart
 // Delete cart

@@ -9,6 +9,22 @@ router.use((req, res, next) => {
     next();
 });
 
+router.get("/", async (req, res, next) => {
+    if (auth.isTokenExpired(req) === true)
+        return next(new Error('Token expired'));
+    try {
+        result = await queryAll();
+    } catch {
+        return next(new Error('Error occured while query all user'));
+    } finally {
+        res.status(200).json({
+        success: true,
+        data: result
+        })
+        next();
+    }
+});
+
 router.put("/profile", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
@@ -29,8 +45,20 @@ router.put("/profile", async (req, res, next) => {
     next();
 })
 
+function queryAll(filter={}) {
+    let result;
+    try {
+        result = User.find(filter).select('username email -_id');
+    } catch {
+        return next(new Error('Issue'))
+    } finally {
+        return result;
+    }
+}
+
 module.exports = {
     router: router,
+    queryAll: queryAll,
 };
 
 // const cb0 = function (req, res, next) {
