@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const config =require('./config/index')
 const auth = require('./routes/auth');
+const user = require('./routes/user')
 const mongoose = require('mongoose');
 
 app.use(express.json());
@@ -11,6 +12,7 @@ mongoose.connect(
 ).then(
     () => {
         app.use('/auth', auth.router);
+        app.use('/user', user.router);
         app.listen(config.PORT, () => {
             console.log(`Example app listening on port ${config.PORT}`)
         });

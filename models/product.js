@@ -39,9 +39,23 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         ref: 'Product'
     },
-
+    arrive_date: {
+        type : Date,
+        default: Date.now
+    }
 })
 
 ProductSchema.plugin(timestamp);
 
 module.exports = mongoose.model('Product', ProductSchema);
+
+
+// Get product list
+// Get product comment
+// Create cart
+// Update cart
+// Delete cart
+// Create order
+// Update order
+// Delete order
+// Update order status

@@ -97,18 +97,18 @@ router.get('/accessResource', (req, res)=>{
     }});    
 });
 
-function isTokenExpired(token){
-    const payloadBase = token.split('.')[1];
-    const decodedJson = Buffer.from(payloadBase, 'base64').toString();
-    const decoded = JSON.parse(decodedJson)
-    const exp  = decoded.exp;
-    const expired = (Date.now() >= exp * 1000);
+function isTokenExpired(req){
+    const token = req.headers.authorization.split(' ')[1];
+    if(!token)
+    {
+        res.status(200).json({success:false, message: "Error!Token was not provided."});
+    }
+    const decodedToken = jwt.verify(token, config.JWT_SECRET );
+    const expired = (Date.now() >= decodedToken.exp * 1000);
+    console.log(Date.now());
+    console.log(decodedToken.exp * 1000);
     return expired;
 }
-
-// module.exports = {
-//     router, isTokenExpired
-// };
 
 module.exports = {
     router: router,
