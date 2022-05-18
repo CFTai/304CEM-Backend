@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const timestamp = require('mongoose-timestamp')
+const { Schema } = mongoose;
+
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -15,6 +17,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  favourite: [
+    { type: Schema.Types.ObjectId, ref: 'Product' }
+  ],
   is_active: {
     type: Boolean,
     default: true
@@ -40,7 +45,6 @@ const UserSchema = new mongoose.Schema({
     default: null,
   }
 });
-
 //  stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }]
 // https://mongoosejs.com/docs/populate.html
 

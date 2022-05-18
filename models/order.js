@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp')
+const { Schema } = mongoose;
+
 const CartSchema = new mongoose.Schema({
     UUID: {
         type: String,

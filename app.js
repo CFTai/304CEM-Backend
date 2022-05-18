@@ -5,7 +5,6 @@ const auth = require('./routes/auth');
 const user = require('./routes/user');
 const product = require('./routes/product');
 const order = require('./routes/order');
-const cart = require('./routes/cart');
 const mongoose = require('mongoose');
 
 app.use(express.json());

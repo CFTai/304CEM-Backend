@@ -107,6 +107,20 @@ router.post("/:id/cart", async (req, res, next) => {
     next();
 })
 
+// Add item to favourite
+router.put("/:id/favourite", async (req, res, next) => {
+    if (auth.isTokenExpired(req) === true)
+        return next(new Error('Token expired'));
+    
+    res.status(200).json({
+        success: true,
+        data: {
+            result : 'Add product to favourite'
+        }
+    });
+    next();
+})
+
 // app.get("/users/:id",(req,res)=>{ // https://domain.com/users/817178
 //     const id = req.params.id ; //  817178
 //   })
