@@ -9,9 +9,9 @@ const mongoose = require('mongoose');
 app.use(restify.plugins.queryParser());
 app.use(restify.plugins.bodyParser());
 
-app.use(rjwt({ secret: config.JWT_SECRET }).unless({
-    path: ['/api/auth', '/api/registration']
-}));
+// app.use(rjwt({ secret: config.JWT_SECRET }).unless({
+//     path: ['/api/auth', '/api/registration']
+// }));
 
 // ========= Handle promise =========
 
@@ -41,6 +41,15 @@ app.on('InternalServer', function (req, res, err, next) {
   next();
 })
 
+const database = mongoose.connection;
+database.on('error', (err) => {
+    console.log(err);
+})
+// import api from routes file
+database.once('open', () => {
+    require('./routes/user')(app)
+})
+
 app.listen(config.PORT, () => {
     mongoose.connect(
         config.MONGODB_URI, {
@@ -49,12 +58,3 @@ app.listen(config.PORT, () => {
     }
     );
 });
-
-const database = mongoose.connection;
-database.on('error', (err) => {
-    console.log(err);
-})
-// import api from routes file 
-database.once('open', () => {
-    require('./routes/user')(app)
-})

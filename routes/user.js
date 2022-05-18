@@ -51,14 +51,26 @@ module.exports = server => {
     });
 
     server.put('/api/user/profile', (req, res, next) => {
-        console.log("here");
+        // var token = req.headers['x-access-token'];
+        // if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+        // jwt.verify(token, config.JWT_SECRET, function(err, decoded) {
+        //     if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+        //     res.status(200).send(decoded);
+        //     next();
+        // });
+        console.log(req.headers);
         var token = req.headers['x-access-token'];
-        if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
-  
-        jwt.verify(token, config.JWT_SECRET, function(err, decoded) {
-            if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-            res.status(200).send(decoded);
-            next();
-        });
+        if (!token) {
+            res.status(401);
+            res.send({ auth: false, message: 'No token provided.' });
+        }
+        try {
+            const decoded = jwt.verify(token, pass);
+            res.status(200);
+            res.send('end');
+            next()
+        } catch (ex) {
+            console.log(ex.messgage);
+        }
     });
 }
