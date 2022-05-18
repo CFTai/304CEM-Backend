@@ -48,7 +48,7 @@ router.put("/:id", async (req, res, next) => {
 }) 
 
 // Delete order
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id/delete", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {

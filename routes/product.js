@@ -19,14 +19,12 @@ router.use((req, res, next) => {
 router.get("/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
-    // Get params from url 
-    // let test = req.query.xxxx;
 
     // create response
     res.status(201).json({
         success: true,
         data: {
-            email: existingUser.email,
+            result : 'Get product detail'
         }
     });
     next();
@@ -64,18 +62,11 @@ router.get("/:id/detail", async (req, res, next) => {
 router.put("/:id/detail", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
-    let { email, password } = req.body;
-    let existingUser;
-    try {
-        existingUser = await User.findOne({ email: email });
-    } catch {
-        return next(new Error('Error occured while query user'));
-    }
-    // create response
-    res.status(201).json({
+    
+    res.status(200).json({
         success: true,
         data: {
-            email: existingUser.email,
+            result : 'Update product detail'
         }
     });
     next();
@@ -84,18 +75,11 @@ router.put("/:id/detail", async (req, res, next) => {
 router.post("/:id/comment", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
-    let { email, password } = req.body;
-    let existingUser;
-    try {
-        existingUser = await User.findOne({ email: email });
-    } catch {
-        return next(new Error('Error occured while query user'));
-    }
     // create response
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: {
-            email: existingUser.email,
+            result : 'Create comment under product'
         }
     });
     next();
@@ -113,18 +97,11 @@ router.delete("/:id/comment", async (req, res, next) => {
 router.post("/:id/cart", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
-    let { email, password } = req.body;
-    let existingUser;
-    try {
-        existingUser = await User.findOne({ email: email });
-    } catch {
-        return next(new Error('Error occured while query user'));
-    }
-    // create response
-    res.status(201).json({
+    
+    res.status(200).json({
         success: true,
         data: {
-            email: existingUser.email,
+            result : 'Add product to cart'
         }
     });
     next();

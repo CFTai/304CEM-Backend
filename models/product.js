@@ -35,10 +35,10 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    category : {
-        type: Number,
-        ref: 'Product'
-    },
+    // category : {
+    //     type: Number,
+    //     ref: 'Product'
+    // },
     arrive_date: {
         type : Date,
         default: Date.now
@@ -48,15 +48,3 @@ const ProductSchema = new mongoose.Schema({
 ProductSchema.plugin(timestamp);
 
 module.exports = mongoose.model('Product', ProductSchema);
-
-
-// Get product list
-// Get product comment
-// Get product details
-// Create cart
-// Update cart
-// Delete cart
-// Create order
-// Update order
-// Delete order
-// Update order status

@@ -105,8 +105,6 @@ function isTokenExpired(req){
     }
     const decodedToken = jwt.verify(token, config.JWT_SECRET );
     const expired = (Date.now() >= decodedToken.exp * 1000);
-    console.log(Date.now());
-    console.log(decodedToken.exp * 1000);
     return expired;
 }
 

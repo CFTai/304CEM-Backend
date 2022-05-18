@@ -17,10 +17,9 @@ mongoose.connect(
         app.use('/auth', auth.router);
         app.use('/user', user.router);
         app.use('/product', product.router);
-        app.use('/cart', cart.router);
         app.use('/order', order.router);
         app.listen(config.PORT, () => {
-            console.log(`Example app listening on port ${config.PORT}`)
+            console.log(`304CEM-Backend is listening on port ${config.PORT}`)
         });
 }).catch(
     (err) => {
