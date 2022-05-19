@@ -4,11 +4,6 @@ const uuid = require('uuid/v4');
 const { Schema } = mongoose;
 
 const OrderItemSchema = new mongoose.Schema({
-    UUID: {
-        type: String,
-        required: true,
-        default: () => uuid()
-    },
     order: {
         type: Schema.Types.ObjectId,
         ref: 'Order',
@@ -23,11 +18,21 @@ const OrderItemSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    originPrice: {
+        type: Number,
+        default : 0
+    },
+    salePrice: {
+        type: Number,
+        default : 0
+    },
     status: {
         type: String,
         required: true
     }
 });
+
+// status
 
 OrderItemSchema.plugin(timestamp);
 module.exports = mongoose.model('OrderItems', OrderItemSchema);

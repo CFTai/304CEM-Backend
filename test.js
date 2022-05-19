@@ -18,7 +18,10 @@ const generateProducts = (arrayLength) => (minCategory, maxCategory) => (minCost
         "productName": `Product ${i+1}`,
         "productImage": `https://picsum.photos/400?image=${Math.floor(Math.random()*1000)}`,
         "productStock": !!randomStock,
-        "productPrice": randomPrice.toFixed(3)
+        "brand": randomCategory,
+        "price": randomPrice,
+        "stock": i,
+        "salePrice": randomPrice.toFixed(3)
       }
     }
     console.log('Below is your products json array');
@@ -27,3 +30,5 @@ const generateProducts = (arrayLength) => (minCategory, maxCategory) => (minCost
   // var result = generateProducts(20)(1, 5)(1000, 4000);
   
 
+// Using this generator or
+// Check existing api (Hottoys)

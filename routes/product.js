@@ -121,9 +121,16 @@ router.put("/:id/favourite", async (req, res, next) => {
     next();
 })
 
-// app.get("/users/:id",(req,res)=>{ // https://domain.com/users/817178
-//     const id = req.params.id ; //  817178
-//   })
+function queryAll(filter={}) {
+    let result;
+    try {
+        result = Product.find(filter).select('username email -_id');
+    } catch {
+        return next(new Error('Issue'))
+    } finally {
+        return result;
+    }
+}
 
 module.exports = {
     router: router,

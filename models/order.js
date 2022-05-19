@@ -18,20 +18,19 @@ const CartSchema = new mongoose.Schema({
         ref:'User',
         required: true,
     },
-    total_price :{
+    totalPrice :{
         type: Number,
         default: 0
     },
-    items: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-    }],
+    deliverFee :{
+        type: Number,
+        default: 0
+    },
     status: {
         type: String,
         default: 'Draft'
     },
-    arrive_date: {
+    deliverDate: {
         type : Date,
         default: Date.now
     }
@@ -40,3 +39,12 @@ const CartSchema = new mongoose.Schema({
 ProductSchema.plugin(timestamp);
 
 module.exports = mongoose.model('Product', ProductSchema);
+
+
+// Order status:
+// Draft
+// Submit
+// Confirm
+// Processing
+// Delivered
+// Returned

@@ -20,7 +20,7 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    sale_price: {
+    salePrice: {
         type: Number,
         default: null
     },
@@ -32,7 +32,7 @@ const ProductSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    net_weight :{
+    netWeight :{
         type: Number,
         default: 0
     },
@@ -40,7 +40,7 @@ const ProductSchema = new mongoose.Schema({
     //     type: Number,
     //     ref: 'Product'
     // },
-    stock_date: {
+    stockDate: {
         type : Date,
         default: Date.now
     }
