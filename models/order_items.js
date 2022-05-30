@@ -26,6 +26,12 @@ const OrderItemSchema = new mongoose.Schema({
         type: Number,
         default : 0
     },
+    printName: {
+        type: String,
+    },
+    printNumber: {
+        type: Number
+    },
     status: {
         type: String,
         required: true

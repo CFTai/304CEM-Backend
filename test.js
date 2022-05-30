@@ -20,7 +20,7 @@ const generateProducts = (arrayLength) => (minCategory, maxCategory) => (minCost
         "productStock": !!randomStock,
         "brand": randomCategory,
         "price": randomPrice,
-        "stock": i,
+        "stock": i, 
         "salePrice": randomPrice.toFixed(3)
       }
     }
@@ -31,4 +31,6 @@ const generateProducts = (arrayLength) => (minCategory, maxCategory) => (minCost
   
 
 // Using this generator or
-// Check existing api (Hottoys)
+// GET team member api
+// CronJob everyday - Get team squad (require), news and stats (Optional) 
+// The type of shirt 
