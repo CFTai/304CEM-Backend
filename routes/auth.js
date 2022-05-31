@@ -10,7 +10,7 @@ router.use((req, res, next) => {
     next();
 })
 
-router.post("/login", async (req, res, next) => {
+router.post("/login/", async (req, res, next) => {
     let { email, password } = req.body;
     let existingUser;
     try {
@@ -42,7 +42,7 @@ router.post("/login", async (req, res, next) => {
     });
 })
 
-router.post("/signup", async (req, res, next) => {
+router.post("/signup/", async (req, res, next) => {
     const { username, email, password } = req.body;
     const newUser = User({
         username,
@@ -79,7 +79,7 @@ router.post("/signup", async (req, res, next) => {
 });
 
 
-router.get('/accessResource', (req, res)=>{   
+router.get('/accessResource/', (req, res)=>{   
     const token = req.headers.authorization.split(' ')[1];  
     //Authorization: 'Bearer TOKEN'
     if(!token)
@@ -98,7 +98,12 @@ router.get('/accessResource', (req, res)=>{
 });
 
 function isTokenExpired(req){
-    const token = req.headers.authorization.split(' ')[1];
+    let token = ''
+    try {
+        token = req.headers.authorization.split(' ')[1];
+    } catch {
+        return next(new Error('Token authentication not found'));
+    }
     if(!token)
     {
         res.status(200).json({success:false, message: "Error!Token was not provided."});
@@ -107,6 +112,7 @@ function isTokenExpired(req){
     const expired = (Date.now() >= decodedToken.exp * 1000);
     return expired;
 }
+
 
 module.exports = {
     router: router,

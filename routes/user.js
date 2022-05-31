@@ -25,7 +25,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.put("/profile", async (req, res, next) => {
+router.put("/profile/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
     let { email, password } = req.body;
@@ -35,7 +35,6 @@ router.put("/profile", async (req, res, next) => {
     } catch {
         return next(new Error('Error occured while query user'));
     }
-    // create response
     res.status(201).json({
         success: true,
         data: {

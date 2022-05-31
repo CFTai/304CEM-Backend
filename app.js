@@ -5,6 +5,7 @@ const auth = require('./routes/auth');
 const user = require('./routes/user');
 const product = require('./routes/product');
 const order = require('./routes/order');
+const player = require('./routes/player');
 const mongoose = require('mongoose');
 
 app.use(express.json());
@@ -17,6 +18,7 @@ mongoose.connect(
         app.use('/user', user.router);
         app.use('/product', product.router);
         app.use('/order', order.router);
+        app.use('/player', player.router);
         app.listen(config.PORT, () => {
             console.log(`304CEM-Backend is listening on port ${config.PORT}`)
         });

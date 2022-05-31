@@ -26,7 +26,7 @@ router.get("/", async (req, res, next) => {
 })
 
 // Get specfic order
-router.get("/:id", async (req, res, next) => {
+router.get("/:id/", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res, next) => {
 })
 
 // Update order detail
-router.put("/:id", async (req, res, next) => {
+router.put("/:id/", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
@@ -48,7 +48,7 @@ router.put("/:id", async (req, res, next) => {
 }) 
 
 // Delete order
-router.delete("/:id/delete", async (req, res, next) => {
+router.delete("/:id/delete/", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
@@ -58,7 +58,7 @@ router.delete("/:id/delete", async (req, res, next) => {
 })
 
 // Update order status
-router.put("/:id/:status", async (req, res, next) => {
+router.put("/:id/:status/", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {

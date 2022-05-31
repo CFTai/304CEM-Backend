@@ -50,7 +50,7 @@ router.post("/", async (req, res, next) => {
     next();
 })
 
-router.get("/:id/detail", async (req, res, next) => {
+router.get("/:id/detail/", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
@@ -59,7 +59,7 @@ router.get("/:id/detail", async (req, res, next) => {
     });
 })
 
-router.put("/:id/detail", async (req, res, next) => {
+router.put("/:id/detail/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
     
@@ -72,7 +72,7 @@ router.put("/:id/detail", async (req, res, next) => {
     next();
 })
 
-router.post("/:id/comment", async (req, res, next) => {
+router.post("/:id/comment/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
     // create response
@@ -85,7 +85,7 @@ router.post("/:id/comment", async (req, res, next) => {
     next();
 })
 
-router.delete("/:id/comment", async (req, res, next) => {
+router.delete("/:id/comment/", async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: {
@@ -94,7 +94,7 @@ router.delete("/:id/comment", async (req, res, next) => {
     });
 })
 
-router.post("/:id/cart", async (req, res, next) => {
+router.post("/:id/cart/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
     
@@ -108,7 +108,7 @@ router.post("/:id/cart", async (req, res, next) => {
 })
 
 // Add item to favourite
-router.put("/:id/favourite", async (req, res, next) => {
+router.put("/:id/favourite/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
     
