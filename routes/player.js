@@ -13,7 +13,7 @@ router.get("/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
         
-    const result = await queryAll();
+    const result = await queryAll(player.Player);
     res.status(200).json({
         success: true,
         data: result
@@ -34,10 +34,10 @@ router.get("/:id/details/", async (req, res, next) => {
     next();
 })
 
-function queryAll(filter={}) {
+function queryAll(object, filter={}) {
     let result;
     try {
-        result = player.Player.find(filter);
+        result = object.find(filter);
     } catch {
         return next(new Error('Issue'))
     } finally {

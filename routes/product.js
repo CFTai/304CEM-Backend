@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const User = require('../models/user');
+const Product = require('../models/product');
 const config = require('../config/index');
 const auth = require('./auth');
 
@@ -19,12 +20,12 @@ router.use((req, res, next) => {
 router.get("/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
-
+    const result = await queryAll();
     // create response
     res.status(201).json({
         success: true,
         data: {
-            result : 'Get product detail'
+            result : result
         }
     });
     next();
@@ -124,7 +125,7 @@ router.put("/:id/favourite/", async (req, res, next) => {
 function queryAll(filter={}) {
     let result;
     try {
-        result = Product.find(filter).select('username email -_id');
+        result = Product.find(filter);
     } catch {
         return next(new Error('Issue'))
     } finally {

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
-const uuid = require('uuid/v4');
 const { Schema } = mongoose;
 
 const OrderItemSchema = new mongoose.Schema({

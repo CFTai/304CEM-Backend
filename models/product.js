@@ -1,20 +1,17 @@
 const mongoose = require('mongoose');
-const timestamp = require('mongoose-timestamp')
+const timestamp = require('mongoose-timestamp');
+const { uuid } = require('uuidv4');
+
 
 const ProductSchema = new mongoose.Schema({
-    UUID: {
+    sku: {
         type: String,
-        required: true,
-        default: () => uuid()
+        default: () => uuid(),
     },
     name: {
         type: String,
         required: true,
         trim: true,
-    },
-    brand: {
-        type: Number,
-        required: true,
     },
     price: {
         type: Number,
@@ -39,10 +36,6 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    // category : {
-    //     type: Number,
-    //     ref: 'Product'
-    // },
     stockDate: {
         type : Date,
         default: Date.now
