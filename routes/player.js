@@ -4,6 +4,7 @@ const router = express.Router();
 const auth = require('./auth');
 const player = require('../models/player');
 const playerStatistics = require('../models/player_statistics');
+const queryAll = require('./aciton').queryAll;
 
 router.use((req, res, next) => {
     next();
@@ -26,7 +27,7 @@ router.get("/:id/details/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
         
-    const result = await queryAllStatistics(filter={'player.id' : parseInt(req.params.id)});
+    const result = await queryAll(playerStatistics.PlayerStatistics, filter={'player.id' : parseInt(req.params.id)});
     res.status(200).json({
         success: true,
         data: result
@@ -34,31 +35,8 @@ router.get("/:id/details/", async (req, res, next) => {
     next();
 })
 
-function queryAll(object, filter={}) {
-    let result;
-    try {
-        result = object.find(filter);
-    } catch {
-        return next(new Error('Issue'))
-    } finally {
-        return result;
-    }
-}
-
-function queryAllStatistics(filter={}) {
-    let result;
-    try {
-        result = playerStatistics.PlayerStatistics.find(filter);
-    } catch {
-        return next(new Error('Issue'))
-    } finally {
-        return result;
-    }
-}
-
 module.exports = {
     router: router,
-    queryAll: queryAll,
 };
 
 
