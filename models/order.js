@@ -3,7 +3,7 @@ const timestamp = require('mongoose-timestamp')
 const { Schema } = mongoose;
 
 const CartSchema = new mongoose.Schema({
-    UUID: {
+    orderID: {
         type: String,
         required: true,
         default: () => uuid()

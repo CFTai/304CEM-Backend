@@ -1,5 +1,7 @@
 // Random product generator
 
+const Product = require('./models/product');
+
 const generateProducts = (arrayLength) => (minCategory, maxCategory) => (minCost, maxCost) => {
 
     let a = new Array(arrayLength);
@@ -41,6 +43,7 @@ const generateKit = (kitType) => {
       const netWeight = 200;
       const name = `${kitType[i]} kit`;
       a[i*sizeGroup.length + j] = {
+        "sku": Math.floor((Math.random() * 1000)),
         "name": name,
         "price": price,
         "salePrice": salePrice,
@@ -56,15 +59,9 @@ const generateKit = (kitType) => {
 }
   
 var result = generateKit(['Home', 'Away', 'Third']);
-// const json = [{"name":"Home kit","price":59.99,"salePrice":null,"stock":13,"size":"XS","description":"Home kit","newWeight":200},{"name":"Home kit","price":59.99,"salePrice":null,"stock":9,"size":"S","description":"Home kit","newWeight":200},{"name":"Home kit","price":59.99,"salePrice":null,"stock":4,"size":"M","description":"Home kit","newWeight":200},{"name":"Home kit","price":59.99,"salePrice":null,"stock":10,"size":"L","description":"Home kit","newWeight":200},{"name":"Home kit","price":59.99,"salePrice":null,"stock":18,"size":"XL","description":"Home kit","newWeight":200},{"name":"Away kit","price":59.99,"salePrice":null,"stock":7,"size":"XS","description":"Away kit","newWeight":200},{"name":"Away kit","price":59.99,"salePrice":null,"stock":3,"size":"S","description":"Away kit","newWeight":200},{"name":"Away kit","price":59.99,"salePrice":null,"stock":1,"size":"M","description":"Away kit","newWeight":200},{"name":"Away kit","price":59.99,"salePrice":null,"stock":6,"size":"L","description":"Away kit","newWeight":200},{"name":"Away kit","price":59.99,"salePrice":null,"stock":14,"size":"XL","description":"Away kit","newWeight":200},{"name":"Third kit","price":59.99,"salePrice":null,"stock":1,"size":"XS","description":"Third kit","newWeight":200},{"name":"Third kit","price":59.99,"salePrice":null,"stock":9,"size":"S","description":"Third kit","newWeight":200},{"name":"Third kit","price":59.99,"salePrice":null,"stock":19,"size":"M","description":"Third kit","newWeight":200},{"name":"Third kit","price":59.99,"salePrice":null,"stock":8,"size":"L","description":"Third kit","newWeight":200},{"name":"Third kit","price":59.99,"salePrice":null,"stock":13,"size":"XL","description":"Third kit","newWeight":200}];
-// json.forEach(element => {
-//     const product = new Product(element);
-//     console.log(product);
-//     product.save(function (err) {
-//         if (err) console.log('error', err);
-//         // saved!
-//     })
-// });
+console.log(result)
+// const json = [{"sku":"KIT00001","name":"Home kit","price":59.99,"salePrice":null,"stock":7,"size":"XS","description":"Home kit","newWeight":200},{"sku":"KIT00001","name":"Home kit","price":59.99,"salePrice":null,"stock":5,"size":"S","description":"Home kit","newWeight":200},{"sku":"KIT00001","name":"Home kit","price":59.99,"salePrice":null,"stock":5,"size":"M","description":"Home kit","newWeight":200},{"sku":"KIT00001","name":"Home kit","price":59.99,"salePrice":null,"stock":13,"size":"L","description":"Home kit","newWeight":200},{"sku":"KIT00001","name":"Home kit","price":59.99,"salePrice":null,"stock":19,"size":"XL","description":"Home kit","newWeight":200},{"sku":"KIT00002","name":"Away kit","price":59.99,"salePrice":null,"stock":13,"size":"XS","description":"Away kit","newWeight":200},{"sku":"KIT00002","name":"Away kit","price":59.99,"salePrice":null,"stock":7,"size":"S","description":"Away kit","newWeight":200},{"sku":"KIT00002","name":"Away kit","price":59.99,"salePrice":null,"stock":15,"size":"M","description":"Away kit","newWeight":200},{"sku":"KIT00002","name":"Away kit","price":59.99,"salePrice":null,"stock":14,"size":"L","description":"Away kit","newWeight":200},{"sku":"KIT00002","name":"Away kit","price":59.99,"salePrice":null,"stock":18,"size":"XL","description":"Away kit","newWeight":200},{"sku":"KIT00003","name":"Third kit","price":59.99,"salePrice":null,"stock":15,"size":"XS","description":"Third kit","newWeight":200},{"sku":"KIT00003","name":"Third kit","price":59.99,"salePrice":null,"stock":17,"size":"S","description":"Third kit","newWeight":200},{"sku":"KIT00003","name":"Third kit","price":59.99,"salePrice":null,"stock":13,"size":"M","description":"Third kit","newWeight":200},{"sku":"KIT00003","name":"Third kit","price":59.99,"salePrice":null,"stock":9,"size":"L","description":"Third kit","newWeight":200},{"sku":"KIT00003","name":"Third kit","price":59.99,"salePrice":null,"stock":9,"size":"XL","description":"Third kit","newWeight":200}];
+
 
 // Using this generator or
 // GET team member api

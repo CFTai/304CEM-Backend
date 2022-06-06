@@ -23,7 +23,6 @@ router.get("/", async (req, res, next) => {
 })
 
 router.get("/:id/details/", async (req, res, next) => {
-
     if (auth.isTokenExpired(req) === true)
         return next(new Error('Token expired'));
         

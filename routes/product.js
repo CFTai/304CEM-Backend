@@ -3,8 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken')
 const User = require('../models/user');
 const Product = require('../models/product');
-const config = require('../config/index');
 const auth = require('./auth');
+const queryAll = require('./aciton').queryAll;
 
 // Get all products
 // Update product's detail
@@ -32,32 +32,26 @@ router.get("/", async (req, res, next) => {
 })
 
 router.post("/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true)
-        return next(new Error('Token expired'));
-    let { email, password } = req.body;
-    let existingUser;
-    try {
-        existingUser = await User.findOne({ email: email });
-    } catch {
-        return next(new Error('Error occured while query user'));
-    }
-    // create response
     res.status(201).json({
         success: true,
         data: {
-            email: existingUser.email,
+            'action' : 'Success'
         }
     });
     next();
 })
 
 router.get("/:id/detail/", async (req, res, next) => {
+
+    if (auth.isTokenExpired(req) === true)
+        return next(new Error('Token expired'));
+        
+    const result = await queryAll(product.Product, {'product.sku' : parseInt(req.params.id)});
     res.status(200).json({
         success: true,
-        data: {
-            result : 'Get product detail'
-        }
+        data: result
     });
+    next();
 })
 
 router.put("/:id/detail/", async (req, res, next) => {
@@ -121,17 +115,6 @@ router.put("/:id/favourite/", async (req, res, next) => {
     });
     next();
 })
-
-function queryAll(filter={}) {
-    let result;
-    try {
-        result = Product.find(filter);
-    } catch {
-        return next(new Error('Issue'))
-    } finally {
-        return result;
-    }
-}
 
 module.exports = {
     router: router,

@@ -13,7 +13,6 @@ router.use((req, res, next) => {
     next();
 });
 
-
 // Get list of order
 router.get("/", async (req, res, next) => {
     res.status(200).json({
