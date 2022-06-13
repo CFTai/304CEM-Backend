@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const User = require('../models/user');
+const Order = require('../models/order')
 const config =require('../config/index')
 
 router.use((req, res, next) => {
@@ -55,6 +56,12 @@ router.post("/signup/", async (req, res, next) => {
         const err = new Error("Create user error ");
         return next(err);
     }
+    // Create a draft order
+    // In this system, draft order equal to cart
+    // Which saves items that user add into it
+    // After user confirm draft order, it's status will change to submit
+    // and create a draft order
+    await Order({user : newUser}).save();
     // Sign jwt token 
     let token;
     try {

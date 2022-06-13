@@ -7,7 +7,7 @@ const auth = require('./auth');
 const product = require('../models/product');
 const user = require('../models/user');
 const comment = require('../models/comment');
-const { updateOne, queryAll, insertOne } = require('./aciton');
+const { updateOne, queryAll, insertOne, deleteOne } = require('./aciton');
 
 // Get all products
 // Update product's detail
@@ -141,7 +141,7 @@ router.post("/:id/comment/", async (req, res, next) => {
     next();
 })
 
-router.delete("/:id/comment/", async (req, res, next) => {
+router.delete("/:id/comment/:comment_id/", async (req, res, next) => {
     if (auth.isTokenExpired(req) === true) {
         res.status(400).json({
             success: false,
@@ -149,6 +149,7 @@ router.delete("/:id/comment/", async (req, res, next) => {
         });
         return next(new Error('Token expired'));
     }
+    await deleteOne(comment, { '_id': req.params.comment_id})
     res.status(200).json({
         success: true,
         data: {

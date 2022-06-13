@@ -52,10 +52,19 @@ function updateMany(object, target, data={}) {
     }
 }
 
+function deleteOne(object, target) {
+    try {
+        return object.deleteOne(target)
+    } catch (err) {
+        return next(new Error('Delete error'))
+    }
+}
+
 module.exports = {
     queryAll: queryAll,
     insertOne: insertOne,
     insertMany: insertMany,
     updateOne: updateOne,
     updateMany: updateMany,
+    deleteOne: deleteOne,
 };

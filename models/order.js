@@ -2,17 +2,7 @@ const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp')
 const { Schema } = mongoose;
 
-const CartSchema = new mongoose.Schema({
-    orderID: {
-        type: String,
-        required: true,
-        default: () => uuid()
-    },
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
+const OrderSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref:'User',
@@ -36,9 +26,9 @@ const CartSchema = new mongoose.Schema({
     }
 })
 
-ProductSchema.plugin(timestamp);
+OrderSchema.plugin(timestamp);
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Order', OrderSchema);
 
 
 // Order status:
