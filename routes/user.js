@@ -10,8 +10,13 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true)
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
         return next(new Error('Token expired'));
+    }
     try {
         result = await queryAll();
     } catch {
@@ -26,8 +31,13 @@ router.get("/", async (req, res, next) => {
 });
 
 router.put("/profile/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true)
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
         return next(new Error('Token expired'));
+    }
     let { email, password } = req.body;
     let existingUser;
     try {
@@ -45,6 +55,13 @@ router.put("/profile/", async (req, res, next) => {
 })
 
 function queryAll(filter={}) {
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
+        return next(new Error('Token expired'));
+    }
     let result;
     try {
         result = User.find(filter).select('username email -_id');

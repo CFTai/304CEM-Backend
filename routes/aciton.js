@@ -15,8 +15,8 @@ function insertOne(object, data={}) {
     const obj = new object(data);
     obj.save(function (err) {
         if (err) console.log('error', err);
-        return 'Insert success';
     })
+    return obj
 }
 
 function insertMany(object, data={}) {
@@ -41,7 +41,15 @@ function updateOne(object, target, data={}) {
 }
 
 function updateMany(object, target, data={}) {
-    return "Success"
+    let result;
+    try{
+        result = object.updateMany(target, data)
+        // target format: {field:{condition e.g. $gte :value}}
+    } catch (err) {
+        return next(new Error('Update many error'))
+    } finally {
+        return result
+    }
 }
 
 module.exports = {

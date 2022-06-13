@@ -11,8 +11,13 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true)
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
         return next(new Error('Token expired'));
+    }
         
     const result = await queryAll(player.Player);
     res.status(200).json({
@@ -23,10 +28,14 @@ router.get("/", async (req, res, next) => {
 })
 
 router.get("/:id/details/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true)
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
         return next(new Error('Token expired'));
-        
-    const result = await queryAll(playerStatistics.PlayerStatistics, filter={'player.id' : parseInt(req.params.id)});
+    }
+    const result = await queryAll(playerStatistics.PlayerStatistics, filter={'player._id' : req.params.id});
     res.status(200).json({
         success: true,
         data: result

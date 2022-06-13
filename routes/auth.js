@@ -92,7 +92,7 @@ router.get('/accessResource/', (req, res)=>{
     res.status(200).json({
         success:true,
         data: {
-            userId:decodedToken.userId, 
+            userId:decodedToken._id, 
             email:decodedToken.email
     }});    
 });
@@ -100,21 +100,24 @@ router.get('/accessResource/', (req, res)=>{
 function isTokenExpired(req){
     let token = ''
     try {
-        token = req.headers.authorization.split(' ')[1];
+        token = req.headers.authorization.split(' ')[1];const decodedToken = jwt.verify(token, config.JWT_SECRET );
+        const expired = (Date.now() >= decodedToken.exp * 1000);
+        return expired;
     } catch {
-        return next(new Error('Token authentication not found'));
+        return true;
     }
-    if(!token)
-    {
-        res.status(200).json({success:false, message: "Error!Token was not provided."});
-    }
-    const decodedToken = jwt.verify(token, config.JWT_SECRET );
-    const expired = (Date.now() >= decodedToken.exp * 1000);
-    return expired;
 }
 
+function getLoginedUser(req){
+    const token = req.headers.authorization.split(' ')[1];  
+    //Authorization: 'Bearer TOKEN'
+    //Decoding the token
+    const decodedToken = jwt.verify(token, config.JWT_SECRET );
+    return decodedToken._id;
+}
 
 module.exports = {
     router: router,
-    isTokenExpired: isTokenExpired
+    isTokenExpired: isTokenExpired,
+    getLoginedUser: getLoginedUser
 }
