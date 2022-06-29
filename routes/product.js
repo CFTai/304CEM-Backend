@@ -51,7 +51,7 @@ router.post("/", async (req, res, next) => {
 
     const result = await insertMany(product, data=json);
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: result
     });
@@ -166,7 +166,8 @@ router.post("/:id/cart/", async (req, res, next) => {
         });
         return next(new Error('Token expired'));
     }
-
+    // Get request body (quantity, printName(optional), printNumber(optional))
+    let { quantity, printName, printText } = req.body
     // Query product
     let targetProduct = await queryAll(product, filter={'_id' : req.params.id});
     console.log(targetProduct);
@@ -177,11 +178,11 @@ router.post("/:id/cart/", async (req, res, next) => {
         order: null, 
         product: targetProduct[0], 
         user: targetUser[0], 
-        quantity: 1, 
-        originPrice: targetProduct.price,
-        salePrice: targetProduct.salePrice,
-        printName: 'Test name',
-        printNumber: 12,
+        quantity: quantity, 
+        originPrice: targetProduct[0].price,
+        salePrice: targetProduct[0].salePrice,
+        printName: printName,
+        printNumber: printText,
         status: 'draft'
     });
     // create response

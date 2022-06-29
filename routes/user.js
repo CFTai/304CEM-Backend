@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const user = require('../models/user');
+const product = require('../models/product');
 const config = require('../config/index');
 const auth = require('./auth');
 const { updateOne, queryAll, insertOne, insertMany, deleteOne } = require('./aciton');
-const product = require('./product');
 
 
 router.use((req, res, next) => {
@@ -43,9 +43,7 @@ router.get("/profile/", async (req, res, next) => {
         return next(new Error('Token expired'));
     }
     let targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
-    console.log(targetUser[0].favourite[0]._id.id);
-    let list_favourite = await queryAll(product, filter={'_id' : targetUser[0].favourite[0]._id._id});
-    console.log(list_favourite);
+    let list_favourite = await queryAll(product, filter={'_id' : { $in : targetUser[0].favourite}});
     // let list_favourite = await 
     res.status(201).json({
         success: true,
@@ -54,6 +52,7 @@ router.get("/profile/", async (req, res, next) => {
             email: targetUser[0].email,
             point: targetUser[0].member_point,
             orders: targetUser[0].orders,
+            favourite: list_favourite
         }
     });
     next();

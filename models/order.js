@@ -18,7 +18,7 @@ const OrderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Draft'
+        default: 'submitted'
     },
     deliverDate: {
         type : Date,
