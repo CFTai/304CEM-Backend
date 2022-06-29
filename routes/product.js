@@ -167,7 +167,7 @@ router.post("/:id/cart/", async (req, res, next) => {
         return next(new Error('Token expired'));
     }
     // Get request body (quantity, printName(optional), printNumber(optional))
-    let { quantity, printName, printText } = req.body
+    let { quantity, printName, printNumber } = req.body
     // Query product
     let targetProduct = await queryAll(product, filter={'_id' : req.params.id});
     console.log(targetProduct);
@@ -182,7 +182,7 @@ router.post("/:id/cart/", async (req, res, next) => {
         originPrice: targetProduct[0].price,
         salePrice: targetProduct[0].salePrice,
         printName: printName,
-        printNumber: printText,
+        printNumber: printNumber,
         status: 'draft'
     });
     // create response

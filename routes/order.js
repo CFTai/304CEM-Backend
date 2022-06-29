@@ -48,11 +48,17 @@ router.get("/:id/detail/", async (req, res, next) => {
         return next(new Error('Token expired'));
     }
     const targetOrder = await queryAll(order, filter={'_id': req.params.id});
-    const order_items = await queryAll(orderItem, filter={order: targetOrder});
+    const order_items = await queryAll(orderItem, filter={order: targetOrder[0]});
     res.status(200).json({
         success: true,
         data: {
-            result : order_items
+            result : {
+                totalPrice : targetOrder[0].totalPrice,
+                deliverFee: targetOrder[0].deliverFee,
+                status: targetOrder[0].status,
+                deliverAt: targetOrder[0].deliverDate,
+                items: order_items
+            }
         }
     });
     next();
@@ -134,7 +140,7 @@ router.post("/cart/", async (req, res, next) => {
     // Caculate sum of product's price in cart
     let sum_price = 0
     for (const element of list_cart){
-        sum_price += element.salePrice
+        sum_price += element.salePrice === null ? element.originPrice : element.salePrice;
     }
     // Create orders, status from draft to submitted
     const order_result = await insertOne(order, {
