@@ -31,7 +31,7 @@ router.get("/", async (req, res, next) => {
     }
     const result = await queryAll(product);
     // create response
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: {
             result : result
@@ -51,7 +51,7 @@ router.post("/", async (req, res, next) => {
 
     const result = await insertMany(product, data=json);
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: result
     });
@@ -129,7 +129,7 @@ router.post("/:id/comment/", async (req, res, next) => {
     // Create commnet object
     const result = await insertOne(comment, {content: content, rating: rating, user: targetUser[0], product: targetProduct[0]});
     // create response
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: {
             comment: { 
@@ -170,9 +170,7 @@ router.post("/:id/cart/", async (req, res, next) => {
     let { quantity, printName, printNumber } = req.body
     // Query product
     let targetProduct = await queryAll(product, filter={'_id' : req.params.id});
-    console.log(targetProduct);
     let targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
-    console.log(targetUser);
     // Create commnet object
     const result = await insertOne(orderItem, {
         order: null, 
@@ -186,7 +184,7 @@ router.post("/:id/cart/", async (req, res, next) => {
         status: 'draft'
     });
     // create response
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: {
             comment: { 

@@ -28,7 +28,8 @@ router.get("/", async (req, res, next) => {
     }
     // Query all items in user's cart
     const targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
-    const list_cart = await queryAll(order, filter={'user': targetUser});
+    const list_cart = await queryAll(order, filter={'user': targetUser[0]});
+
     res.status(200).json({
         success: true,
         data: {
@@ -84,6 +85,7 @@ router.delete("/:id/detail/", async (req, res, next) => {
         return next(new Error('Token expired'));
     }
     const result = await deleteOne(order, filter={'_id': req.params.id});
+    // Also change all order items status to deleted
     res.status(200).json({
         success: true,
         data: {
@@ -94,11 +96,26 @@ router.delete("/:id/detail/", async (req, res, next) => {
 }) 
 
 // Update order status
-router.put("/:id/:status/", async (req, res, next) => {
+router.put("/:id/status/", async (req, res, next) => {
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success:false,
+            message: 'Token expired'
+        });
+        return next(new Error('Token expired'));
+    }
+    let {toStatus} = req.body;
+    const update = await updateOne(
+        orderItem,
+        {'_id' : req.params.id},
+        {
+            status: toStatus
+        }
+    )
     res.status(200).json({
         success: true,
         data: {
-            result: 'Update order status'
+            result: update
         }
     });
     next();
@@ -115,7 +132,7 @@ router.get("/cart/", async (req, res, next) => {
     }
     const targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
     const list_cart = await queryAll(orderItem, filter={'user': targetUser, status:'draft'});
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: {
             result : list_cart
