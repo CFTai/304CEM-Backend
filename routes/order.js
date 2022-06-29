@@ -67,6 +67,17 @@ router.put("/:id/:status/", async (req, res, next) => {
     next();
 });
 
+// Get personal cart item
+router.get("/order/cart/", async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        data: {
+            result: 'Update order status'
+        }
+    });
+    next();
+});
+
 module.exports = {
     router: router,
 };

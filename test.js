@@ -56,6 +56,7 @@ const generateKit = (kitType) => {
   }
   console.log('Below is your products json array');
   console.log(JSON.stringify(a));
+  return a;
 }
   
 var result = generateKit(['Home', 'Away', 'Third']);

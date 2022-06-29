@@ -6,7 +6,6 @@ const OrderItemSchema = new mongoose.Schema({
     order: {
         type: Schema.Types.ObjectId,
         ref: 'Order',
-        required: true
     },
     product: {
         type: Schema.Types.ObjectId,
@@ -33,7 +32,7 @@ const OrderItemSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        required: true
+        default: 'draft'
     }
 });
 

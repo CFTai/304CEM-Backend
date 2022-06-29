@@ -7,7 +7,8 @@ const auth = require('./auth');
 const product = require('../models/product');
 const user = require('../models/user');
 const comment = require('../models/comment');
-const { updateOne, queryAll, insertOne, deleteOne } = require('./aciton');
+const orderItem = require('../models/order_items');
+const { updateOne, queryAll, insertOne, insertMany, deleteOne } = require('./aciton');
 
 // Get all products
 // Update product's detail
@@ -47,11 +48,12 @@ router.post("/", async (req, res, next) => {
         });
         return next(new Error('Token expired'));
     }
+
+    const result = await insertMany(product, data=json);
+
     res.status(201).json({
         success: true,
-        data: {
-            'action' : 'Success'
-        }
+        data: result
     });
     next();
 })
@@ -149,23 +151,47 @@ router.delete("/:id/comment/:comment_id/", async (req, res, next) => {
         });
         return next(new Error('Token expired'));
     }
-    await deleteOne(comment, { '_id': req.params.comment_id})
+    const result = await deleteOne(comment, { '_id': req.params.comment_id})
     res.status(200).json({
         success: true,
-        data: {
-            result : 'Delete comment'
-        }
+        data: result
     });
 })
 
 router.post("/:id/cart/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true)
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
         return next(new Error('Token expired'));
-    
+    }
+
+    // Query product
+    let targetProduct = await queryAll(product, filter={'_id' : req.params.id});
+    console.log(targetProduct);
+    let targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
+    console.log(targetUser);
+    // Create commnet object
+    const result = await insertOne(orderItem, {
+        order: null, 
+        product: targetProduct[0], 
+        user: targetUser[0], 
+        quantity: 1, 
+        originPrice: targetProduct.price,
+        salePrice: targetProduct.salePrice,
+        printName: 'Test name',
+        printNumber: 12,
+        status: 'draft'
+    });
+    // create response
     res.status(200).json({
         success: true,
         data: {
-            result : 'Add product to cart'
+            comment: { 
+                id: result.id,
+                status: result.status
+            }
         }
     });
     next();
