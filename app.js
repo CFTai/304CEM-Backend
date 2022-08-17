@@ -7,8 +7,20 @@ const product = require('./routes/product');
 const order = require('./routes/order');
 const player = require('./routes/player');
 const mongoose = require('mongoose');
+var cors = require('cors');
+
+const corsOptions = {
+    origin: [
+      'http://www.example.com',
+      'http://localhost:8080',
+      'http://localhost:3000'
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
 app.use(express.json());
+app.use(cors(corsOptions));
 
 mongoose.connect(
     config.MONGODB_URI

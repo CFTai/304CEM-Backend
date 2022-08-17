@@ -22,13 +22,13 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true) {
-        res.status(400).json({
-            success: false,
-            message: 'Token expired'
-        });
-        return next(new Error('Token expired'));
-    }
+    // if (auth.isTokenExpired(req) === true) {
+    //     res.status(400).json({
+    //         success: false,
+    //         message: 'Token expired'
+    //     });
+    //     return next(new Error('Token expired'));
+    // }
     const result = await queryAll(product);
     // create response
     res.status(200).json({
@@ -49,7 +49,7 @@ router.post("/", async (req, res, next) => {
         return next(new Error('Token expired'));
     }
 
-    const result = await insertMany(product, data=json);
+    const result = await insertMany(product, data=req.body);
 
     res.status(201).json({
         success: true,
@@ -168,14 +168,18 @@ router.post("/:id/cart/", async (req, res, next) => {
     }
     // Get request body (quantity, printName(optional), printNumber(optional))
     let { quantity, printName, printNumber } = req.body
+
+    console.log(quantity, printName, printNumber)
     // Query product
     let targetProduct = await queryAll(product, filter={'_id' : req.params.id});
     let targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
     // Create commnet object
     const result = await insertOne(orderItem, {
         order: null, 
-        product: targetProduct[0], 
-        user: targetUser[0], 
+        product: targetProduct[0],
+        productName: targetProduct[0].name,
+        productSize: targetProduct[0].size,
+        userId: targetUser[0]._id, 
         quantity: quantity, 
         originPrice: targetProduct[0].price,
         salePrice: targetProduct[0].salePrice,
@@ -183,11 +187,12 @@ router.post("/:id/cart/", async (req, res, next) => {
         printNumber: printNumber,
         status: 'draft'
     });
+    console.log(result)
     // create response
     res.status(201).json({
         success: true,
         data: {
-            comment: { 
+            data: { 
                 id: result.id,
                 status: result.status
             }
@@ -198,6 +203,7 @@ router.post("/:id/cart/", async (req, res, next) => {
 
 // Add item to favourite
 router.put("/:id/favourite/", async (req, res, next) => {
+    var message = "";
     if (auth.isTokenExpired(req) === true) {
         res.status(400).json({
             success: false,
@@ -218,6 +224,7 @@ router.put("/:id/favourite/", async (req, res, next) => {
                 'favourite' : req.params.id
             }}
         )
+        message = "Added to favourite"
     } else {
         // pull out from favourite
         await updateOne(
@@ -227,11 +234,12 @@ router.put("/:id/favourite/", async (req, res, next) => {
                 'favourite' : req.params.id
             }}
         )
+        message = "Removed from favourite"
     }
     res.status(200).json({
         success: true,
         data: {
-            result : 'Add product to favourite'
+            result : message
         }
     });
     next();

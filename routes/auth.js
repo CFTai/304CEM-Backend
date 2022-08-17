@@ -75,7 +75,7 @@ router.post("/signup/", async (req, res, next) => {
         return next(error);
     }
     // create response
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: {
             userId: newUser.id,

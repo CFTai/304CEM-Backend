@@ -1,6 +1,6 @@
 const res = require("express/lib/response");
 
-function queryAll(object, filter={}) {
+function queryAll(object, filter={},) {
     let result;
     try {
         result = object.find(filter);
@@ -60,6 +60,17 @@ function deleteOne(object, target) {
     }
 }
 
+function deleteAll(object, target) {
+    let result;
+    try {
+        result = object.remove(target)
+    } catch (err) {
+        return next(new Error('Delete error'))
+    } finally {
+        return result
+    }
+}
+
 module.exports = {
     queryAll: queryAll,
     insertOne: insertOne,
@@ -67,4 +78,5 @@ module.exports = {
     updateOne: updateOne,
     updateMany: updateMany,
     deleteOne: deleteOne,
+    deleteAll: deleteAll,
 };

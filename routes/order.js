@@ -6,7 +6,7 @@ const orderItem = require('../models/order_items');
 const order = require('../models/order');
 const config = require('../config/index');
 const auth = require('./auth');
-const { updateOne, queryAll, insertOne, insertMany, deleteOne } = require('./aciton');
+const { updateOne, queryAll, insertOne, insertMany, deleteOne, deleteAll } = require('./aciton');
 
 // Create draft order (by using cart id, add every items in cart into order)
 // Confirm order (arg: order.id, body: {order.status})
@@ -185,6 +185,39 @@ router.post("/cart/", async (req, res, next) => {
     });
     next();
 });
+
+// Delete single cart item
+router.delete("/cart/:item_id/item/", async (req, res, next) => {
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false,
+            message: 'Token expired'
+        });
+        return next(new Error('Token expired'));
+    }
+    const result = await deleteOne(orderItem, {'_id': req.params.item_id})
+    res.status(200).json({
+        success: true
+    });
+})
+
+// Delete all cart item
+
+router.delete("/cart/", async (req, res, next) => {
+    if (auth.isTokenExpired(req) === true) {
+        res.status(400).json({
+            success: false, 
+            message: 'Token expired'
+        });
+        return next(new Error('Token expired'));
+    }
+    const targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
+    const list_cart = await deleteAll(orderItem, target={userId: targetUser[0]._id, status : 'draft'});
+    res.status(200).json({
+        success: true,
+    });
+    next();
+})
 
 
 module.exports = {
