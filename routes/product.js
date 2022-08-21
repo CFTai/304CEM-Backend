@@ -92,14 +92,8 @@ router.put("/:id/detail/", async (req, res, next) => {
 })
 
 router.get("/:id/comment/", async (req, res, next) => {
-    if (auth.isTokenExpired(req) === true) {
-        res.status(400).json({
-            success: false,
-            message: 'Token expired'
-        });
-        return next(new Error('Token expired'));
-    }
-    const result = await queryAll(comment, filter={'comment.product._id' : req.params.id});
+    console.log(req.params.id)
+    const result = await queryAll(comment, filter={'product' : req.params.id});
     res.status(200).json({
         success: true,
         data: result
