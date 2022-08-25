@@ -22,13 +22,6 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-    // if (auth.isTokenExpired(req) === true) {
-    //     res.status(400).json({
-    //         success: false,
-    //         message: 'Token expired'
-    //     });
-    //     return next(new Error('Token expired'));
-    // }
     const result = await queryAll(product);
     // create response
     res.status(200).json({
