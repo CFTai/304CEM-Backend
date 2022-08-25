@@ -67,20 +67,26 @@ router.put("/profile/", async (req, res, next) => {
         });
         return next(new Error('Token expired'));
     }
-    // let { email, password } = req.body;
-    // let existingUser;
-    // try {
-    //     existingUser = await User.findOne({ email: email });
-    // } catch {
-    //     return next(new Error('Error occured while query user'));
-    // }
-    res.status(201).json({
-        success: true,
-        data: {
-            email: existingUser.email,
-        }
-    });
-    next();
+    let { email, password } = req.body;
+    try {
+        let targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
+        const update = await updateOne(
+            user,
+            {'_id' : targetUser[0]._id},
+            {
+                password: password
+            }
+        )
+        res.status(201).json({
+            success: true,
+            data: {
+                result: 'success',
+            }
+        });
+        next();
+    } catch {
+        return next(new Error('Error occured while query user'));
+    }
 })
 
 module.exports = {
