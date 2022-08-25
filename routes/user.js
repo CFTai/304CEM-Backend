@@ -67,7 +67,7 @@ router.put("/profile/", async (req, res, next) => {
         });
         return next(new Error('Token expired'));
     }
-    let { email, password } = req.body;
+    let { password } = req.body;
     try {
         let targetUser = await queryAll(user, filter={'_id': auth.getLoginedUser(req)});
         const update = await updateOne(
