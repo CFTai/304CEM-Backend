@@ -1,0 +1,728 @@
+{
+	"info": {
+		"_postman_id": "98b04543-c3e8-4943-aa78-e6a0a2d428c5",
+		"name": "304CEM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5784336"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test_user1\",\n    \"email\":\"testing1@gmail.com\",\n    \"password\":\"P@ssw0rd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/signup/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"signup",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"",
+									"pm.environment.set(\"jwt_token\", response.data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"testing1@gmail.com\",\n    \"password\": \"P@ssw0rd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update profile",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/profile/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TestJWT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/auth/accessResource/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"accessResource",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user's profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/profile/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get Product list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/product/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\"sku\":\"KIT00001\",\"name\":\"Home kit\",\"price\":59.99,\"salePrice\":null,\"stock\":7,\"size\":\"XS\",\"description\":\"Home kit\",\"newWeight\":200},{\"sku\":\"KIT00001\",\"name\":\"Home kit\",\"price\":59.99,\"salePrice\":null,\"stock\":5,\"size\":\"S\",\"description\":\"Home kit\",\"newWeight\":200},{\"sku\":\"KIT00001\",\"name\":\"Home kit\",\"price\":59.99,\"salePrice\":null,\"stock\":5,\"size\":\"M\",\"description\":\"Home kit\",\"newWeight\":200},{\"sku\":\"KIT00001\",\"name\":\"Home kit\",\"price\":59.99,\"salePrice\":null,\"stock\":13,\"size\":\"L\",\"description\":\"Home kit\",\"newWeight\":200},{\"sku\":\"KIT00001\",\"name\":\"Home kit\",\"price\":59.99,\"salePrice\":null,\"stock\":19,\"size\":\"XL\",\"description\":\"Home kit\",\"newWeight\":200},{\"sku\":\"KIT00002\",\"name\":\"Away kit\",\"price\":59.99,\"salePrice\":null,\"stock\":13,\"size\":\"XS\",\"description\":\"Away kit\",\"newWeight\":200},{\"sku\":\"KIT00002\",\"name\":\"Away kit\",\"price\":59.99,\"salePrice\":null,\"stock\":7,\"size\":\"S\",\"description\":\"Away kit\",\"newWeight\":200},{\"sku\":\"KIT00002\",\"name\":\"Away kit\",\"price\":59.99,\"salePrice\":null,\"stock\":15,\"size\":\"M\",\"description\":\"Away kit\",\"newWeight\":200},{\"sku\":\"KIT00002\",\"name\":\"Away kit\",\"price\":59.99,\"salePrice\":null,\"stock\":14,\"size\":\"L\",\"description\":\"Away kit\",\"newWeight\":200},{\"sku\":\"KIT00002\",\"name\":\"Away kit\",\"price\":59.99,\"salePrice\":null,\"stock\":18,\"size\":\"XL\",\"description\":\"Away kit\",\"newWeight\":200},{\"sku\":\"KIT00003\",\"name\":\"Third kit\",\"price\":59.99,\"salePrice\":null,\"stock\":15,\"size\":\"XS\",\"description\":\"Third kit\",\"newWeight\":200},{\"sku\":\"KIT00003\",\"name\":\"Third kit\",\"price\":59.99,\"salePrice\":null,\"stock\":17,\"size\":\"S\",\"description\":\"Third kit\",\"newWeight\":200},{\"sku\":\"KIT00003\",\"name\":\"Third kit\",\"price\":59.99,\"salePrice\":null,\"stock\":13,\"size\":\"M\",\"description\":\"Third kit\",\"newWeight\":200},{\"sku\":\"KIT00003\",\"name\":\"Third kit\",\"price\":59.99,\"salePrice\":null,\"stock\":9,\"size\":\"L\",\"description\":\"Third kit\",\"newWeight\":200},{\"sku\":\"KIT00003\",\"name\":\"Third kit\",\"price\":59.99,\"salePrice\":null,\"stock\":9,\"size\":\"XL\",\"description\":\"Third kit\",\"newWeight\":200}]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/product/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/product/629db0fcb7ce85eca44834db/detail/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"629db0fcb7ce85eca44834db",
+								"detail",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/product/12345/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"12345",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"\",\n    \"rating\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/product/62b3009277a96f753c428055/comment/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"62b3009277a96f753c428055",
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/product/629db0fcb7ce85eca44834db/comment/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"629db0fcb7ce85eca44834db",
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/product/629db0fcb7ce85eca44834db/comment/62b301078bbc10f5e235b6e7/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"629db0fcb7ce85eca44834db",
+								"comment",
+								"62b301078bbc10f5e235b6e7",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add product to cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\" : 1,\n    \"printName\" : \"De gea\",\n    \"printNumber\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/product/629db0fcb7ce85eca44834db/cart/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"629db0fcb7ce85eca44834db",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle item to favourite",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/product/62f8c3f40a69bf83e6a7cccc/favourite/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"product",
+								"62f8c3f40a69bf83e6a7cccc",
+								"favourite",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get order list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/62f8c29c4facc4d9df5f3775/detail/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"62f8c29c4facc4d9df5f3775",
+								"detail",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/12345",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"12345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change order status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/12345/status",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"12345",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/cart/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/cart/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/cart/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete single cart item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/order/cart/62fce47fe6809f5a5456c279/item/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"cart",
+								"62fce47fe6809f5a5456c279",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
